@@ -4,6 +4,7 @@
 <h2>Create a new poll</h2>
 
 <form action="{% url 'polls:add' %}" method="post">
+    <!-- CSRF token needed here: -->
     {% csrf_token %}
     
     {{ poll_form.as_p }}
