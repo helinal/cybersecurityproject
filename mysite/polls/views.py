@@ -1,9 +1,10 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
+from .form import AddPollForm, QuestionMetaInlineFormset
 from .models import Choice, Question
 
 
@@ -37,8 +38,32 @@ def vote(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
+def add(request):
+    if request.method == 'POST':
+        poll_form = AddPollForm(request.POST)
+        formset = QuestionMetaInlineFormset(request.POST)
+        
+        if poll_form.is_valid() and formset.is_valid():
+                    #Ensure at least two choices are filled
+                    choices = formset.save(commit=False)
+                    valid_choices = [choice for choice in choices if choice.choice_text.strip()]
+
+                    if len(valid_choices) >= 2:
+                        new_poll = poll_form.save(commit=False)
+                        new_poll.save()
+
+                        for choice in valid_choices:
+                            choice.question = new_poll
+                            choice.save()
+
+                        return redirect('polls:index')
+    else:
+        poll_form = AddPollForm(initial={'pub_date': timezone.now()})
+        formset = QuestionMetaInlineFormset()
+
+    return render(request, 'polls/add.html', {
+        'poll_form': poll_form,
+        'formset': formset
+    })

@@ -1,0 +1,22 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+
+<h2>Create a new poll</h2>
+
+<form action="{% url 'polls:add' %}" method="post">
+    {% csrf_token %}
+    
+    {{ poll_form.as_p }}
+
+    <h3>Choices</h3>
+    <p>Please create at least two choices for the poll.</p>
+    {{ formset.management_form }}
+    
+    {% for form in formset %}
+        {{ form.as_p }}
+    {% endfor %}
+    
+    <p><input type="submit" value="Create poll"></p>
+</form>
+
+<a href="{% url 'polls:index' %}">Back to all polls</a>
