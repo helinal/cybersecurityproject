@@ -1,6 +1,6 @@
 # Cyber Security Base 2024, project I
 
-## Flaw 1 - CSRF tokens
+## Flaw 1 - Cross Site Request Forgery
 
 ### Locations
 
