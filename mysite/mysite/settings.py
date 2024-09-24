@@ -120,6 +120,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Login and logout redirect settings
+LOGIN_URL = 'polls:login'
+LOGIN_REDIRECT_URL = 'polls:index'
+LOGOUT_REDIRECT_URL = 'polls:index'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
