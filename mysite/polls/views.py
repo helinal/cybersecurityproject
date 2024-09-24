@@ -40,7 +40,7 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'polls/register.html', {'form': form})
 
-@login_required
+#Here, there should be the following decorator: @login_required
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -55,7 +55,7 @@ def vote(request, question_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
-@login_required
+#Here, there should be the following decorator: @login_required
 def add(request):
     if request.method == 'POST':
         poll_form = AddPollForm(request.POST)

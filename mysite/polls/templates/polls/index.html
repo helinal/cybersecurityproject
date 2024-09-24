@@ -2,7 +2,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 
 {% if user.is_authenticated %}
-  <p>Welcome, {{ user.username }}! <a href="{% url 'polls:logout' %}">Logout</a></p>
+  <p>Welcome, <i>{{ user.username }}</i>! <a href="{% url 'polls:logout' %}">Logout</a></p><p>
+
   <h2>All polls</h2>
 
   {% if latest_question_list %}
