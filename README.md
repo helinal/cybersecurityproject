@@ -36,8 +36,41 @@ In this app, it is intended that only users that are logged in would be able to 
 Luckily, Django has a built-in user authentication to restrict access to certain endpoints. In the views.py file (locations linked above), the *@loginrequired* decorator should be added before the *vote* and *add* functions.
 
 
-## Flaw 3 -
+## Flaw 3 - Injection (XSS)
+
+### Location
+
+https://github.com/helinal/cybersecurityproject/blob/d1b389255673ae3eb5682763ff20780ba063d554/mysite/polls/templates/polls/detail.html#L4
+
+### Description
+
+Injection can occur when an application processes user data in a way that allows attackers to manipulate the application's behaviour. This often happens when the data is directly used in commands or queries without proper validation, sanitization or filtering. The most common injection "types" include SQL injection, Cross-site Scripting (XSS) and External Control of File Name or Path. For example, in SQL injection, malicious inputs are able to alter database queries, leading to unauthorized data access and/or modification. To prevent different types of injection, coders should use safe APIs with parameterized queries (like Django) and validate inputs on the server side, for example.
+
+### How to fix
+
+In this case, the app is vulnerable to XSS (Cross-Site Scripting). At the app's current state, a user could add a new poll question with malicious content as *question_text* (like a Javascript script, for example) which would then be executed by the browser instead of rendering it as plain text. Currently, in detail.html, the *question_text* is displayed with *{{ question.question_text|safe }}*. We can make the code secure from XSS by just removing the *|safe* filter, like so: *{{ question.question_text }}*. One should avoid using the *|safe* filter alogether unless one is 100% certain that the content is sanitized and safe to render.
+
 
 ## Flaw 4 -
 
+### Location
+
+
+### Description
+
+
+### How to fix
+
+
+
 ## Flaw 5 -
+
+### Location
+
+
+### Description
+
+
+### How to fix
+
+
