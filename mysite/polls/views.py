@@ -1,7 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
@@ -29,16 +31,39 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
+#The register method below stores passwords as plain text, thus having a critical cryptographic failure
+#The fixed, secure register method can be found below
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password1')  # Normally this would be hashed
+        password_confirm = request.POST.get('password2')
+
+        if password == password_confirm:
+            # Create a new user with plain-text password (insecure)
+            user = User(username=username)
+            user.set_password(password)
+            user.save()
+
+            login(request, user)
+            return redirect('polls:index')
+        else:
+            return HttpResponse("Passwords do not match!")
+    else:
+        return render(request, 'polls/register.html')
+
+"""
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save() # this hashes the password correctly
             login(request, user)
             return redirect('polls:index')
     else:
         form = UserCreationForm()
     return render(request, 'polls/register.html', {'form': form})
+"""
 
 #Here, there should be the following decorator: @login_required
 def vote(request, question_id):
