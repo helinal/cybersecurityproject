@@ -21,7 +21,7 @@ class IndexView(generic.ListView):
         """Return the last five published questions."""
         return Question.objects.filter(
             pub_date__lte=timezone.now()
-        ).order_by('-pub_date')[:5]
+        ).order_by('-pub_date')[:10]
 
 class DetailView(generic.DetailView):
     model = Question
@@ -31,8 +31,8 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
-#The register method below stores passwords as plain text, thus having a critical cryptographic failure
-#The fixed, secure register method can be found below
+# The register method below stores passwords as plain text, thus having a critical cryptographic failure
+# The fixed, secure register method can be found below
 def register(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -40,9 +40,8 @@ def register(request):
         password_confirm = request.POST.get('password2')
 
         if password == password_confirm:
-            # Create a new user with plain-text password (insecure)
             user = User(username=username)
-            user.set_password(password)
+            user.password = password # Directly assign the plain text password, could be fixed by using user.set_password(password)
             user.save()
 
             login(request, user)
@@ -57,15 +56,15 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save() # this hashes the password correctly
-            login(request, user)
+            user = form.save() # This hashes the password correctly
+            login(request, user
             return redirect('polls:index')
     else:
         form = UserCreationForm()
     return render(request, 'polls/register.html', {'form': form})
 """
 
-#Here, there should be the following decorator: @login_required
+# Here, there should be the following decorator: @login_required
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -80,7 +79,7 @@ def vote(request, question_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
-#Here, there should be the following decorator: @login_required
+# Here, there should be the following decorator: @login_required
 def add(request):
     if request.method == 'POST':
         poll_form = AddPollForm(request.POST)
