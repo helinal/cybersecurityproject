@@ -1,7 +1,9 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 
-<h2>{{ question.question_text }}</h2>
+<!-- The code row below is vulnerable to XSS attacks.
+It should just be <h2>{{ question.question_text }}</h2> -->
+<h2>{{ question.question_text|safe }}</h2>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
