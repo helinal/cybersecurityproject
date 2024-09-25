@@ -16,7 +16,7 @@ The malicious request can contain, for example, URL parameters, cookies or other
 
 ### How to fix
 
-To fix the flaw in this app, all we have to do is add CSRF tags ({% csrf_token %}) to all forms of this application (logging in, registering, creating new polls and voting). In the links above the tags are already added, as Django has built-in CSRF defences by default and the app will not run without them.
+To fix the flaw in this app, all we have to do is add CSRF tags ({% csrf_token %}) to all forms of this application (logging in, registering, creating new polls and voting). The tags help the server to verify the requests: that they are legitimate and made by an authenticated user. In the links above the CSRF tags are already added, as Django has built-in CSRF defences by default and the app will not run without them.
 
 
 ## Flaw 2 - Broken Access Control
