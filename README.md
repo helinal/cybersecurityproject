@@ -1,6 +1,6 @@
 # Cyber Security Base 2024, project I
 
-This app was created for the Cyber Security Base 2024 course by the University of Helsinki. The app has five different security flaws from the [OWASP 2021 Top Ten llst](https://owasp.org/www-project-top-ten/) ( + added CSRF).
+This app is a very simple polls app, created for the Cyber Security Base 2024 course by the University of Helsinki. The app has five different security flaws from the [OWASP 2021 Top Ten llst](https://owasp.org/www-project-top-ten/) ( + added CSRF).
 
 ### Installation
 
