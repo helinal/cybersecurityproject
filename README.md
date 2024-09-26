@@ -1,5 +1,24 @@
 # Cyber Security Base 2024, project I
 
+This app was created for the Cyber Security Base 2024 course by the University of Helsinki. The app has five different security flaws from the [OWASP 2021 Top Ten llst](https://owasp.org/www-project-top-ten/) ( + added CSRF).
+
+### Installation
+
+1. Download and extract the project files to your desired location
+2. To set up the database, run the commands below in the folder where *manage.py* is located
+   
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+3. Finally, start the server with the following command
+
+```
+python manage.py runserver
+```
+
+
 ## Flaw 1 - Cross Site Request Forgery
 
 ### Locations
@@ -11,12 +30,11 @@ https://github.com/helinal/cybersecurityproject/blob/0c8948b9bfa611fcc8a07173d84
 
 ### Description
 
-Cross-site Request Forgery (or CSRF) is an attack where an attacker tricks the user into performing actions on a website without their knowledge. The attacker's goal is to trick the user into submitting malicious web requests to a website that the user has priviledged access to. 
-The malicious request can contain, for example, URL parameters, cookies or other data that apper normal to the target web application. Web applications are at risk if they act on input from trusted users without additional authorization. An authenticated user could unintentionally send a request to a trusted site, causing unwanted actions due to the user's trusted cookie in their browser.
+Cross-site Request Forgery (or CSRF) is an attack where the attacker tricks the user into performing actions on a website without their knowledge. The attacker's goal is to trick the user into submitting malicious web requests to a website that the user has priviledged access to. The malicious request can contain, for example, URL parameters, cookies or other data that appear normal to the target web application. Web applications are at risk if they act on input from trusted users without additional authorization. An authenticated user could unintentionally send a request to a trusted site, causing unwanted actions due to the user's trusted cookie in their browser.
 
 ### How to fix
 
-To fix the flaw in this app, all we have to do is add CSRF tags ({% csrf_token %}) to all forms of this application (logging in, registering, creating new polls and voting). The tags help the server to verify the requests: that they are legitimate and made by an authenticated user. In the links above the CSRF tags are already added, as Django has built-in CSRF defences by default and the app will not run without them.
+To reduce the possibility of CSRF attacks, all we have to do is add CSRF tags ({% csrf_token %}) to all forms of this application (logging in, registering, creating new polls and voting). The tags help the server to verify the requests: that they are legitimate and made by an authenticated user. In the links above the CSRF tags are already added, as Django has built-in CSRF defences by default and the app will not run without them.
 
 
 ## Flaw 2 - Broken Access Control
@@ -28,7 +46,7 @@ https://github.com/helinal/cybersecurityproject/blob/0c8948b9bfa611fcc8a07173d84
 
 ### Description
 
-Broken access control occurs when users can access data or perform actions outside their intended permissions. This could involve accessing or modifying unauthorized resources by altering urls, viewing  another user's data or bypassing authentication checks entirely. These problems can arise when when proper restrictions on what users can do or see are not enforced properly. Prevention methods could include enforcing strict user permissions and checking user privileges consistently, for example. In this app, it is intended that only users that are logged in would be able to vote or add new polls. However, currently anyone can access the */add/* endpoint to create a poll, for example.
+Broken access control occurs when users can access data or perform actions outside their intended permissions. This could involve accessing or modifying unauthorized resources by altering urls, viewing  another user's data or bypassing authentication checks entirely. These problems can arise when when proper restrictions on what users can do or see are not enforced properly. Prevention methods include enforcing strict user permissions and checking user privileges consistently, for example. In this app, it is intended that only users that are logged in would be able to vote or add new polls. However, currently anyone can access the */add/* endpoint to create a poll, for example.
 
 ### How to fix
 
