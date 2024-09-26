@@ -32,7 +32,7 @@ Broken access control occurs when users can access data or perform actions outsi
 
 ### How to fix
 
-The fix for this vulnerability is simple: Django has a built-in user authentication to restrict access to certain endpoints. In the views.py file (locations linked above), the *@loginrequired* decorator should be added before the *vote* and *add* functions.
+The fix for this vulnerability is simple: Django has a built-in user authentication to restrict access to certain endpoints. In the views.py file (locations linked above), the *@loginrequired* decorator should be added before the *vote* and *add* functions. By adding the decorator, only logged in users can access the */vote/* and */add/* endpoints.
 
 
 ## Flaw 3 - Injection (XSS)
@@ -66,14 +66,17 @@ There is a severe cryptographic failure in this app: when creating a new user, t
 Instead of storing passwords as plain text, one should always hash them. When using Django, for example, one could use the aforementioned *set_password* method or use Django's built-in form *UserCreationForm* that handles password validation and hashing automatically. In the linked location above, the secure version of the *register* method that uses *UserCreationForm* can be found below the insecure one. 
 
 
-## Flaw 5 -
+## Flaw 5 - Security Misconfiguration
 
 ### Location
 
+https://github.com/helinal/cybersecurityproject/blob/3db799851ebc8c9863c8aac52c74f04dc7920a42/mysite/mysite/settings.py#L25
 
 ### Description
 
+Security Misconfiguration refers to weaknesses in the configuration of an application's components or structure that can leave it vulnerable to attacks. This category is quite broad and includes issues like using outdated software libraries, not changing default passwords and poorly configured servers. In this case, in the Django's automatically generated *settings.py* file, the *DEBUG* variable is set to *True* by default. The debug mode is meant to be used just for development. If the app would now be deployed to production with these settings, this would count as a security misconfiguration issue.
 
 ### How to fix
 
+The fix to the security misconfiguration mentioned above is simple. The only thing we have to do is to change *DEBUG = True* to *DEBUG = False* in the settings.py file (linked above). Setting the *DEBUG* as *False* helps preventing, for example, sensitive information leaking to unwanted users. This is because when *DEBUG* is set to *False*, Django displays detailed error essages that could include file paths, database queries and sensitive environment variables etc. When *DEBUG = False*, these diagnostics are not shown to the end user, reducing the risk of accidentally exposing sensitive data.
 
