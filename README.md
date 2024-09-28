@@ -4,7 +4,7 @@ This app is a very simple polls app, created for the Cyber Security Base 2024 co
 
 ### Installation
 
-1. Download and extract the project files to your desired location
+1. Clone the project files to your desired location
 2. To set up the database, run the commands below in the folder where *manage.py* is located
    
 ```
