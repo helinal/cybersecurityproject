@@ -12,7 +12,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-3. Finally, start the server with the following command
+3. Finally, start the app with the command
 
 ```
 python manage.py runserver
