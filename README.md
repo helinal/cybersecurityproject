@@ -2,6 +2,8 @@
 
 This app is a very simple polls app, created for the Cyber Security Base 2024 course by the University of Helsinki. The app has five different security flaws from the [OWASP 2021 Top Ten llst](https://owasp.org/www-project-top-ten/) ( + added CSRF).
 
+*Do not use this app or parts of it anywhere as it's extremely unsecure!*
+
 ### Installation
 
 1. Clone the project files to your desired location
@@ -21,20 +23,17 @@ python manage.py runserver
 
 ## Flaw 1 - Cross Site Request Forgery
 
-### Locations
+### Location
 
-https://github.com/helinal/cybersecurityproject/blob/b89aa8900b0f3748bc106cce46b2bdef86451cce/mysite/polls/templates/polls/detail.html#L9
-https://github.com/helinal/cybersecurityproject/blob/b89aa8900b0f3748bc106cce46b2bdef86451cce/mysite/polls/templates/polls/add.html#L7
-https://github.com/helinal/cybersecurityproject/blob/d863ed17413b0de3121df8eb52608f8800fb13ce/mysite/polls/templates/polls/login.html#L3
-https://github.com/helinal/cybersecurityproject/blob/0c8948b9bfa611fcc8a07173d84e438f810c82c0/mysite/polls/templates/polls/register.html#L3
+https://github.com/helinal/cybersecurityproject/blob/3c4d8d9c200acb1e47602047a5bf59e60959d1ee/mysite/mysite/settings.py#L45
 
 ### Description
 
-Cross-site Request Forgery (or CSRF) is an attack where the attacker tricks the user into performing actions on a website without their knowledge. The attacker's goal is to trick the user into submitting malicious web requests to a website that the user has priviledged access to. The malicious request can contain, for example, URL parameters, cookies or other data that appear normal to the target web application. Web applications are at risk if they act on input from trusted users without additional authorization. An authenticated user could unintentionally send a request to a trusted site, causing unwanted actions due to the user's trusted cookie in their browser.
+Cross-site Request Forgery (or CSRF) is an attack where the attacker tricks the user into performing actions on a website without their knowledge. The attacker's goal is to trick the user into submitting malicious web requests to a website that the user has priviledged access to. The malicious request can contain, for example, URL parameters, cookies or other data that appear normal to the target web application. Web applications are at risk if they act on input from trusted users without additional authorization. An authenticated user could unintentionally send a request to a trusted site, causing unwanted actions due to the user's trusted cookie in their browser. In this app, Django's built-in CSRF middleware that usually protects the app from CSRF attacks is disabled, making the app vulnerable.
 
 ### How to fix
 
-To reduce the possibility of CSRF attacks, all we have to do is add CSRF tags ({% csrf_token %}) to all forms of this application (logging in, registering, creating new polls and voting). The tags help the server to verify the requests: that they are legitimate and made by an authenticated user. In the links above the CSRF tags are already added, as Django has built-in CSRF defences by default and the app will not run without them.
+To fix this flaw all we have to do is add the CSRF middleware back. This can be done in settings.py (in the location above) by adding *'django.middleware.csrf.CsrfViewMiddleware'* in MIDDLEWARE. Usually, this is enabled by default when coding with Django. *CSRFViewMiddleware*'s job is to validate POST requests to check if the contain a valid CSRF token - deleting it means that the backend doesn't validate CSRF tokens at all, allowing possible malicious requests.
 
 
 ## Flaw 2 - Broken Access Control
