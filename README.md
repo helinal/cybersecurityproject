@@ -1,10 +1,10 @@
 # Cyber Security Base 2024, project I
 
-This app was created for the Cyber Security Base 2024 course by the University of Helsinki. The app has five different security flaws from the [OWASP 2021 Top Ten llst](https://owasp.org/www-project-top-ten/) ( + added CSRF).
+This app is a very simple polls app, created for the Cyber Security Base 2024 course by the University of Helsinki. The app has five different security flaws from the [OWASP 2021 Top Ten llst](https://owasp.org/www-project-top-ten/) ( + added CSRF).
 
 ### Installation
 
-1. Download and extract the project files to your desired location
+1. Clone the project files to your desired location
 2. To set up the database, run the commands below in the folder where *manage.py* is located
    
 ```
@@ -12,7 +12,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-3. Finally, start the server with the following command
+3. Finally, start the app with the command
 
 ```
 python manage.py runserver
