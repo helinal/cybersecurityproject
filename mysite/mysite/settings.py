@@ -29,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,10 +42,13 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # Here there should be the following Django CSRF middleware:
+    # 'django.middleware.csrf.CsrfViewMiddleware'
+    # Without the middleware above, 
+    # Django does not verify any incoming POST requests for CSRF tokens
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
